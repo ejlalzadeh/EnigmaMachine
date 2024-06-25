@@ -2,34 +2,34 @@
 
 public class Plugboard
 {
-    private readonly Letter _a = new('A');
-    private readonly Letter _b = new('B');
-    private readonly Letter _c = new('C');
-    private readonly Letter _d = new('D');
-    private readonly Letter _e = new('E');
-    private readonly Letter _f = new('F');
-    private readonly Letter _g = new('G');
-    private readonly Letter _h = new('H');
-    private readonly Letter _i = new('I');
-    private readonly Letter _j = new('J');
-    private readonly Letter _k = new('K');
-    private readonly Letter _l = new('L');
-    private readonly Letter _m = new('M');
-    private readonly Letter _n = new('N');
-    private readonly Letter _o = new('O');
-    private readonly Letter _p = new('P');
-    private readonly Letter _q = new('Q');
-    private readonly Letter _r = new('R');
-    private readonly Letter _s = new('S');
-    private readonly Letter _t = new('T');
-    private readonly Letter _u = new('U');
-    private readonly Letter _v = new('V');
-    private readonly Letter _w = new('W');
-    private readonly Letter _x = new('X');
-    private readonly Letter _y = new('Y');
-    private readonly Letter _z = new('Z');
+    private Letter _a = new('A');
+    private Letter _b = new('B');
+    private Letter _c = new('C');
+    private Letter _d = new('D');
+    private Letter _e = new('E');
+    private Letter _f = new('F');
+    private Letter _g = new('G');
+    private Letter _h = new('H');
+    private Letter _i = new('I');
+    private Letter _j = new('J');
+    private Letter _k = new('K');
+    private Letter _l = new('L');
+    private Letter _m = new('M');
+    private Letter _n = new('N');
+    private Letter _o = new('O');
+    private Letter _p = new('P');
+    private Letter _q = new('Q');
+    private Letter _r = new('R');
+    private Letter _s = new('S');
+    private Letter _t = new('T');
+    private Letter _u = new('U');
+    private Letter _v = new('V');
+    private Letter _w = new('W');
+    private Letter _x = new('X');
+    private Letter _y = new('Y');
+    private Letter _z = new('Z');
 
-    private readonly List<Wire> _wires = new(10)
+    private List<Wire> _wires = new(10)
     {
         new Wire(),
         new Wire(),
@@ -65,6 +65,7 @@ public class Plugboard
         }
     }
 
+
     private void WireUp(string pairs)
     {
         if (pairs.Length % 2 != 0)
@@ -78,7 +79,7 @@ public class Plugboard
                 Letter left = ConvertCharToLetter(pairs[0]);
                 Letter right = ConvertCharToLetter(pairs[1]);
 
-                wire.Connect(left, right);
+                wire.ConnectLetters(left, right);
 
                 _wires.Remove(wire);
                 pairs = pairs.Remove(0, 2);
@@ -122,55 +123,5 @@ public class Plugboard
             'Z' => _z,
             _ => throw new ArgumentException("Invalid letter", nameof(letterAsCharacter))
         };
-    }
-}
-
-internal class Letter
-{
-    private readonly char _name;
-    private Letter? _connectedLetter;
-
-    public Letter(char name)
-    {
-        _name = name;
-        _connectedLetter = null;
-    }
-
-    public void Connect(Letter connectedLetter)
-    {
-        if (_connectedLetter is not null)
-            throw new InvalidOperationException($"The letter {_name} is already connected to another letter.");
-
-        _connectedLetter = connectedLetter;
-    }
-
-    public string Translate()
-    {
-        if (_connectedLetter is null)
-            return _name.ToString();
-
-        return _connectedLetter._name.ToString();
-    }
-}
-
-
-internal class Wire
-{
-    private Letter? _leftLetter;
-    private Letter? _rightLetter;
-
-    public Wire()
-    {
-        _leftLetter = null;
-        _rightLetter = null;
-    }
-
-    public void Connect(Letter leftLetter, Letter rightLetter)
-    {
-        _leftLetter = leftLetter;
-        _rightLetter = rightLetter;
-
-        _leftLetter.Connect(_rightLetter);
-        _rightLetter.Connect(_leftLetter);
     }
 }
