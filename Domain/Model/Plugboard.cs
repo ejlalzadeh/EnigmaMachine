@@ -53,38 +53,30 @@ public class Plugboard
 
     public string Process(char input)
     {
-        try
-        {
-            Letter letter = ConvertCharToLetter(input);
-
-            return letter.Translate();
-        }
-        catch (ArgumentException)
-        {
+        if (!TryConvertCharToLetter(input, out Letter letter))
             return input.ToString();
-        }
+
+        return letter.Translate();
     }
 
-
-    private void WireUp(string pairs)
+    private void WireUp(string wirePairs)
     {
-        if (pairs.Length % 2 != 0)
-            throw new InvalidOperationException("Invalid pairing configuration");
+        ValidateWirePairs(wirePairs);
 
-        while (pairs.Any())
+        while (wirePairs.Any())
         {
             if (_wires.Any())
             {
                 Wire wire = _wires.First();
 
-                Letter leftSideLetter = ConvertCharToLetter(pairs[0]);
+                TryConvertCharToLetter(wirePairs[0], out Letter leftSideLetter);
                 wire.ConnectToLefSide(leftSideLetter);
 
-                Letter rightSideLetter = ConvertCharToLetter(pairs[1]);
+                TryConvertCharToLetter(wirePairs[1], out Letter rightSideLetter);
                 wire.ConnectToRightSide(rightSideLetter);
 
                 _wires.Remove(wire);
-                pairs = pairs.Remove(0, 2);
+                wirePairs = wirePairs.Remove(0, 2);
             }
             else
             {
@@ -93,37 +85,103 @@ public class Plugboard
         }
     }
 
-    private Letter ConvertCharToLetter(char letterAsCharacter)
+    private void ValidateWirePairs(string wirePairs)
     {
-        return letterAsCharacter switch
+        if (wirePairs.Length % 2 != 0)
+            throw new InvalidOperationException("Invalid wire pairs configuration");
+
+        foreach (char letterAsCharacter in wirePairs)
         {
-            'A' => _a,
-            'B' => _b,
-            'C' => _c,
-            'D' => _d,
-            'E' => _e,
-            'F' => _f,
-            'G' => _g,
-            'H' => _h,
-            'I' => _i,
-            'J' => _j,
-            'K' => _k,
-            'L' => _l,
-            'M' => _m,
-            'N' => _n,
-            'O' => _o,
-            'P' => _p,
-            'Q' => _q,
-            'R' => _r,
-            'S' => _s,
-            'T' => _t,
-            'U' => _u,
-            'V' => _v,
-            'W' => _w,
-            'X' => _x,
-            'Y' => _y,
-            'Z' => _z,
-            _ => throw new ArgumentException("Invalid letter", nameof(letterAsCharacter))
-        };
+            if (!TryConvertCharToLetter(letterAsCharacter, out Letter _))
+                throw new InvalidOperationException("Invalid letter in wire pairs");
+        }
+    }
+
+    private bool TryConvertCharToLetter(char letterAsCharacter, out Letter letter)
+    {
+        switch (letterAsCharacter)
+        {
+            case 'A':
+                letter = _a;
+                return true;
+            case 'B':
+                letter = _b;
+                return true;
+            case 'C':
+                letter = _c;
+                return true;
+            case 'D':
+                letter = _d;
+                return true;
+            case 'E':
+                letter = _e;
+                return true;
+            case 'F':
+                letter = _f;
+                return true;
+            case 'G':
+                letter = _g;
+                return true;
+            case 'H':
+                letter = _h;
+                return true;
+            case 'I':
+                letter = _i;
+                return true;
+            case 'J':
+                letter = _j;
+                return true;
+            case 'K':
+                letter = _k;
+                return true;
+            case 'L':
+                letter = _l;
+                return true;
+            case 'M':
+                letter = _m;
+                return true;
+            case 'N':
+                letter = _n;
+                return true;
+            case 'O':
+                letter = _o;
+                return true;
+            case 'P':
+                letter = _p;
+                return true;
+            case 'Q':
+                letter = _q;
+                return true;
+            case 'R':
+                letter = _r;
+                return true;
+            case 'S':
+                letter = _s;
+                return true;
+            case 'T':
+                letter = _t;
+                return true;
+            case 'U':
+                letter = _u;
+                return true;
+            case 'V':
+                letter = _v;
+                return true;
+            case 'W':
+                letter = _w;
+                return true;
+            case 'X':
+                letter = _x;
+                return true;
+            case 'Y':
+                letter = _y;
+                return true;
+            case 'Z':
+                letter = _z;
+                return true;
+            default:
+                letter = null;
+                return false;
+        }
     }
 }
