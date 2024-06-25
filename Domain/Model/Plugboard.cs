@@ -76,10 +76,12 @@ public class Plugboard
             if (_wires.Any())
             {
                 Wire wire = _wires.First();
-                Letter left = ConvertCharToLetter(pairs[0]);
-                Letter right = ConvertCharToLetter(pairs[1]);
 
-                wire.ConnectLetters(left, right);
+                Letter leftSideLetter = ConvertCharToLetter(pairs[0]);
+                wire.ConnectToLefSide(leftSideLetter);
+
+                Letter rightSideLetter = ConvertCharToLetter(pairs[1]);
+                wire.ConnectToRightSide(rightSideLetter);
 
                 _wires.Remove(wire);
                 pairs = pairs.Remove(0, 2);

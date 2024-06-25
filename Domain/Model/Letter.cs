@@ -3,26 +3,32 @@
 internal class Letter
 {
     private readonly char _name;
-    private Letter? _connectedLetter = null;
+    private Wire? _connectedWire = null;
 
     public Letter(char name)
     {
         _name = name;
     }
 
-    public void Connect(Letter connectedLetter)
+    public string GetName()
     {
-        if (_connectedLetter is not null)
-            throw new InvalidOperationException($"The letter {_name} is already connected to another letter.");
+        return _name.ToString();
+    }
 
-        _connectedLetter = connectedLetter;
+    public void SetConnectedWire(Wire wire)
+    {
+        if (_connectedWire is not null)
+            throw new InvalidOperationException($"The letter {_name} is already connected to another wire.");
+
+        _connectedWire = wire;
     }
 
     public string Translate()
     {
-        if (_connectedLetter is null)
-            return _name.ToString();
+        if (_connectedWire is null)
+            return this.GetName();
 
-        return _connectedLetter._name.ToString();
+        Letter letterConnectedByWire = _connectedWire.GetOtherSide(this);
+        return letterConnectedByWire.GetName();
     }
 }
